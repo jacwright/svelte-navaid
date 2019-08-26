@@ -1,6 +1,6 @@
 # svelte-navaid
 
-Navaid-based routing components for Svelte. Does not work with Sapper, I don’t think. Contributions welcome.
+Navaid-based routing components for Svelte. Does not work with Sapper. Yet. I don’t think. Contributions welcome.
 
 ## Getting Started
 
@@ -47,7 +47,7 @@ npm i --save svelte-navaid
   </Route>
 
   <!-- Supports slots or component prop, a prop "params" will be passed to it -->
-  <Route path="/bar" component={Bar}/>
+  <Route path="/bar" component={SomeComponent}/>
 
   <!-- Supports passing params -->
   <Route path="/things/:id" let:params>
