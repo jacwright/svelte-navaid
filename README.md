@@ -108,7 +108,8 @@ Use hash-based routing for single-page apps that are hosted on a server which do
 ```
 
 Navigate to paths programmatically. The first 2 options are recommended because they will use the context of the router.
-This allows using the path relative to the nearest router vs the whole application.
+This allows using the path relative to the nearest router vs the whole application. Be sure to start the URL with `/` to
+get the intended result.
 
 ```svelte
 <script>
@@ -122,7 +123,7 @@ This allows using the path relative to the nearest router vs the whole applicati
   <h1>Hello World!</h1>
 
   <Route path="/">
-    <button on:click={() => navigate('bar')}>Go To Bar</button>
+    <button on:click={() => navigate('/bar')}>Go To Bar</button>
   </Route>
 
   <Route path="/bar">
@@ -139,7 +140,7 @@ This allows using the path relative to the nearest router vs the whole applicati
   const navigate = getContext('navigate');
 </script>
 
-<button on:click={() => navigate('bar')}>Go To Bar</button>
+<button on:click={() => navigate('/bar')}>Go To Bar</button>
 ```
 
 When using the following method, you must use the full path, even if within nested routes (e.g. "/blog/articles/23"). It
@@ -151,7 +152,7 @@ If you write your components using one of the previous two methods, they will be
   import { navigate } from 'svelte-navaid';
 </script>
 
-<button on:click={() => navigate('bar')}>Go To Bar</button>
+<button on:click={() => navigate('/bar')}>Go To Bar</button>
 ```
 
 ## Testing
