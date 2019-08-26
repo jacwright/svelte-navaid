@@ -5,14 +5,15 @@
   import Blog from './Blog.svelte';
   import navaidHash from '../navaid-hash';
   let useHash = false;
+  let navigate;
 </script>
 
 <label><input type="checkbox" bind:checked={useHash}> Use Hash</label>
 
-<Router library={useHash ? navaidHash : null}>
+<Router library={useHash ? navaidHash : null} bind:navigate>
   <h1>Hello World!</h1>
 
-  <Link href="/">Home</Link> | <Link href="foo/sub1">Foo</Link> | <Link href="/bar?abc=def">Bar</Link> | <Link href="/blog/">Blog</Link>
+  <Link href="/">Home</Link> | <Link href="foo/sub1">Foo</Link> | <button on:click={() => navigate('/bar?abc=def')}>Bar</button> | <Link href="/blog/">Blog</Link>
 
   <Route path="/">
     <h2>Home</h2>

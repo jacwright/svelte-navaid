@@ -107,6 +107,53 @@ Use hash-based routing for single-page apps that are hosted on a server which do
 </Router>
 ```
 
+Navigate to paths programmatically. The first 2 options are recommended because they will use the context of the router.
+This allows using the path relative to the nearest router vs the whole application.
+
+```svelte
+<script>
+  import Router from 'svelte-navaid/Router.svelte';
+  import Route from 'svelte-navaid/Route.svelte';
+
+  let navigate;
+</script>
+
+<Router bind:navigate>
+  <h1>Hello World!</h1>
+
+  <Route path="/">
+    <button on:click={() => navigate('bar')}>Go To Bar</button>
+  </Route>
+
+  <Route path="/bar">
+    <button on:click={() => navigate('/')}>Go Home</button>
+  </Route>
+</Router>
+```
+
+
+```svelte
+<script>
+  import { getContext } from 'svelte';
+
+  const navigate = getContext('navigate');
+</script>
+
+<button on:click={() => navigate('bar')}>Go To Bar</button>
+```
+
+When using the following method, you must use the full path, even if within nested routes (e.g. "/blog/articles/23"). It
+does not know the base URL. If using the hash library this method will also require you use the hash (e.g. "#/blog/articles/23").
+If you write your components using one of the previous two methods, they will be more portable and maintainable.
+
+```svelte
+<script>
+  import { navigate } from 'svelte-navaid';
+</script>
+
+<button on:click={() => navigate('bar')}>Go To Bar</button>
+```
+
 ## Testing
 
 ```bash

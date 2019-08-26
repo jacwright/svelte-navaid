@@ -1,9 +1,8 @@
 {
   "name": "svelte-navaid",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "main": "index.js",
   "scripts": {
-    "build": "rollup -c",
-    "prepublishOnly": "npm run build",
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
     "start": "sirv demo --single",
@@ -27,8 +26,11 @@
     "svelte"
   ],
   "files": [
-    "src",
-    "index.mjs",
+    "Router.svelte",
+    "Route.svelte",
+    "Link.svelte",
+    "writable-set.js",
+    "navaid-hash.js",
     "index.js"
   ]
 }

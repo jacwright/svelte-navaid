@@ -1,7 +1,11 @@
 <script>
+  import { getContext } from 'svelte';
   import Router from '../Router.svelte';
   import Route from '../Route.svelte';
   import Link from '../Link.svelte';
+
+  const navigateOuter = getContext('navigate');
+  let navigate;
 
   const articles = [
     {
@@ -34,13 +38,16 @@
 
   <p>This is a blog subcomponent on the page with its own router which can be mounted underneath any parent router.</p>
 
-  <Router>
+  <Router bind:navigate>
     <Route path="/">
+      <button on:click={() => navigateOuter('/')}>Go Home</button>
+
       <h2>All Posts</h2>
       {#each articles as article}
         <div class="post-snippet">
           <h3><Link href="articles/{article.slug}">{article.title}</Link></h3>
           <div class="author">—{article.author}</div>
+          <button on:click={() => navigate('/articles/' + article.slug)}>Go To Post</button>
         </div>
       {/each}
     </Route>

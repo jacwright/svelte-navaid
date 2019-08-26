@@ -7,11 +7,20 @@
   export let base = '/';
   export let hash = null;
   export let library = null;
+  export function navigate(uri, replace) {
+    if (router) {
+      router.route(uri, replace);
+    } else {
+      pendingNavigate = { uri, replace };
+    }
+  }
+
   const baseStore = writable(base);
   const libraryStore = writable(library);
   const routes = writableSet();
   const active = writable();
   const params = writable({});
+  let pendingNavigate = null;
   let router;
 
   const context = getContext('navaid');
@@ -19,6 +28,7 @@
   const contextLibrary = context && context.library || writable(null);
 
   setContext('navaid', { routes, active, params, base: baseStore, library: libraryStore });
+  setContext('navigate', navigate);
 
   $: {
     const path = $contextActive.path;
@@ -61,6 +71,11 @@
     });
 
     router.listen();
+
+    if (pendingNavigate) {
+      router.route(pendingNavigate.uri, pendingNavigate.replace);
+      pendingNavigate = null;
+    }
   }
 
   onDestroy(() => {
