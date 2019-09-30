@@ -5,6 +5,7 @@
   import { writable } from 'svelte/store';
 
   export let base = '/';
+  export let middleware = null;
   export let hash = null;
   export let library = null;
   export function navigate(uri, replace) {
@@ -59,6 +60,9 @@
         router.on(route.path, routeParams => {
           $active = route;
           $params = routeParams;
+          if (typeof middleware === 'function') {
+            middleware(route.path, routeParams);
+          }
         });
         if (route.path.slice(-2) === '/*') {
           // Allow /url/* to match /url as well
