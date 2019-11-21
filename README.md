@@ -46,12 +46,12 @@ npm i --save svelte-navaid
     </Router>
   </Route>
 
-  <!-- Supports slots or component prop, a prop "params" will be passed to it -->
-  <Route path="/bar" component={SomeComponent}/>
+  <!-- Supports slots or component prop, the props from params will be passed to it -->
+  <Route path="/bar" component={SomeComponent} myProperty={someValue}/>
 
   <!-- Supports passing params -->
   <Route path="/things/:id" let:params>
-    id: {params.id}
+    The ID is: {params.id}
   </Route>
 
   <!-- Supports 404 pages -->

@@ -63,8 +63,8 @@
         if (route.path.slice(-2) === '/*') {
           // Allow /url/* to match /url as well
           router.on(route.path.slice(0, -2), routeParams => {
-            $active = route;
             $params = routeParams;
+            $active = route;
           });
         }
       }
