@@ -34,7 +34,7 @@
 
   $: baseStore.set(base);
   $: libraryStore.set(library != null ? library : $contextLibrary);
-  $: setNestedBase($contextActive.path);
+  $: setNestedBase($contextActive ? $contextActive.path : '');
   $: updateRoutes(base, $routes, $libraryStore || navaid);
 
   function setNestedBase(activePath = "") {
