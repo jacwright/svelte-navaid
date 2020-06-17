@@ -32,16 +32,23 @@
   setContext('navaid', { routes, active, params, base: baseStore, library: libraryStore });
   setContext('navigate', navigate);
 
-  $: {
-    const path = $contextActive.path;
-    if (path && path.slice(-1) === '*') {
-      base = path.slice(0, -1);
+  $: baseStore.set(base);
+  $: libraryStore.set(library != null ? library : $contextLibrary);
+  $: setNestedBase($contextActive.path);
+  $: updateRoutes(base, $routes, $libraryStore || navaid);
+
+  function setNestedBase(activePath = "") {
+    const pathIsWildcard = /\*$/.test(activePath);
+    const routerUsesDefaultBase = base === "/";
+
+    if (pathIsWildcard && routerUsesDefaultBase) {
+      base = [
+        $contextBase.replace(/\/$/, ""),
+        activePath.replace(/^\//, "").replace(/\*$/, "")
+      ].join("/");
       baseStore.set(base);
     }
   }
-  $: baseStore.set(base);
-  $: libraryStore.set(library != null ? library : $contextLibrary);
-  $: updateRoutes(base, $routes, $libraryStore || navaid);
 
   function updateRoutes(base, routes, navaid) {
     if (router) {
@@ -61,10 +68,12 @@
         router.on(route.path, routeParams => {
           $active = route;
           $params = routeParams;
+
           if (typeof middleware === 'function') {
             middleware(route.path, routeParams);
           }
         });
+
         if (route.path.slice(-2) === '/*') {
           // Allow /url/* to match /url as well
           router.on(route.path.slice(0, -2), routeParams => {
@@ -88,4 +97,4 @@
   });
 </script>
 
-<slot></slot>
+<slot />
