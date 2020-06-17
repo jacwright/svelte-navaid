@@ -2,7 +2,7 @@
   import { getContext, setContext, onDestroy } from 'svelte';
   import navaid from 'navaid';
   import writableSet from './writable-set';
-  import { writable } from 'svelte/store';
+  import { readable, writable } from 'svelte/store';
 
   export let base = '/';
   export let middleware = null;
@@ -25,8 +25,9 @@
   let router;
 
   const context = getContext('navaid');
-  const contextActive = context && context.active || writable({ path: '' });
-  const contextLibrary = context && context.library || writable(null);
+  const contextBase = (context && context.base) || readable("/");
+  const contextActive = (context && context.active) || readable({ path: "" });
+  const contextLibrary = (context && context.library) || readable(null);
 
   setContext('navaid', { routes, active, params, base: baseStore, library: libraryStore });
   setContext('navigate', navigate);
